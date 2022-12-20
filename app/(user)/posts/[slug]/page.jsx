@@ -5,11 +5,11 @@ import { client } from "../../../../utils/sanity.client";
 import urlFor from "../../../../utils/urlFor";
 import { PortableText } from "@portabletext/react";
 import { RichTextComponents } from "../../../components/RichTextComponents";
-type Props = {
-  params: {
-    slug: string;
-  };
-};
+// type Props = {
+//   params: {
+//     slug: string,
+//   },
+// };
 
 export const revalidate = 30;
 
@@ -18,14 +18,15 @@ export async function generateStaticParams() {
   {
     slug
   }`;
-  const slugs: Post[] = await client.fetch(query);
+  // : Post[]
+  const slugs = await client.fetch(query);
   const slugRoutes = slugs.map((slug) => slug.slug.current);
   return slugRoutes.map((slug) => ({
     slug,
   }));
 }
-
-const Post = async ({ params: { slug } }: Props) => {
+// : Props
+const Post = async ({ params: { slug } }) => {
   const query = groq`
   *[_type=='post' && slug.current == $slug][0]
   {
@@ -34,8 +35,8 @@ const Post = async ({ params: { slug } }: Props) => {
     categories[]->
   }
 `;
-
-  const post: Post = await client.fetch(query, { slug });
+  // : Post
+  const post = await client.fetch(query, { slug });
   console.log(post);
 
   return (
